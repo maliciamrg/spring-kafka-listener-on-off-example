@@ -20,12 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.MessageListenerContainer;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.common.Foo1;
+
+import javax.validation.Valid;
 
 /**
  * @author Gary Russell
@@ -40,8 +39,8 @@ public class Controller {
 	@Autowired
 	private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
-	@PostMapping(path = "/send/foo/{what}")
-	public void sendFoo(@PathVariable String what) {
+	@PostMapping(path = "/send/foo")
+	public void sendFoo(@Valid @RequestBody String what) {
 		this.template.send("topic1", new Foo1(what));
 	}
 
